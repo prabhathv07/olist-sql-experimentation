@@ -1,5 +1,6 @@
 # Olist SQL + Experimentation – DuckDB, Window Functions, Cohort Retention & A/B Hypothesis Testing
 
+[![CI](https://github.com/prabhathv07/olist-sql-experimentation/actions/workflows/ci.yml/badge.svg)](https://github.com/prabhathv07/olist-sql-experimentation/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)
 ![DuckDB](https://img.shields.io/badge/DuckDB-1.5-FFF000?logo=duckdb&logoColor=black)
 ![statsmodels](https://img.shields.io/badge/statsmodels-0.14-3C3C3C)

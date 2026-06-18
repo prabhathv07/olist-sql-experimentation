@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  pipeline:
+    name: End-to-end pipeline smoke test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install duckdb statsmodels scipy pandas matplotlib
+
+      - name: Lint Python files (syntax + basic checks with ruff)
+        run: |
+          pip install ruff
+          ruff check --select=E9,F63,F7,F82 --target-version=py311 \
+            01_generate_data.py 02_run_sql.py 03_experiment.py 04_figures.py
+
+      - name: Generate the synthetic Olist-style dataset
+        run: python 01_generate_data.py
+
+      - name: Run the SQL pipeline (DuckDB)
+        run: python 02_run_sql.py
+
+      - name: Run the experiment (power analysis + z-test)
+        run: python 03_experiment.py
+
+      - name: Build the summary figure
+        run: python 04_figures.py
+
+      - name: Assert all expected outputs were produced
+        run: |
+          set -e
+          required=(
+            results/q1_monthly_revenue.csv
+            results/q2_repeat_gap.csv
+            results/q3_state_leaderboard.csv
+            results/q4_daily_orders_ma.csv
+            results/q5_cohort_retention.csv
+            results/q5_cohort_matrix.csv
+            results/q6_repeat_by_payment.csv
+            results/experiment_output.txt
+            results/summary_figure.png
+          )
+          for f in "${required[@]}"; do
+            if [ ! -s "$f" ]; then
+              echo "MISSING or empty: $f"
+              exit 1
+            fi
+            echo "ok: $f ($(wc -c < "$f") bytes)"
+          done
+
+      - name: Sanity check the experiment log
+        run: |
+          grep -q "BUSINESS QUESTION" results/experiment_output.txt
+          grep -q "POWER ANALYSIS" results/experiment_output.txt
+          grep -q "SIGNIFICANCE TEST" results/experiment_output.txt
+          grep -qE "VERDICT: (REJECT H0|fail to reject H0)" results/experiment_output.txt
+          echo "experiment_output.txt has all expected sections"
+
+      - name: Upload pipeline artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-py${{ matrix.python-version }}
+          path: results/
+          retention-days: 14

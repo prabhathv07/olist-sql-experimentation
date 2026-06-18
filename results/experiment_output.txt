@@ -1,0 +1,42 @@
+======================================================================
+BUSINESS QUESTION
+======================================================================
+Do credit-card-first customers retain (90-day repeat) better than
+boleto-first customers? Payment-method-at-acquisition is a lever the
+growth team can nudge (e.g. promoting card checkout), so a real,
+reliable gap would be worth acting on.
+
+HYPOTHESES (two-sided, alpha = 0.05)
+  H0: repeat_rate(credit_card) = repeat_rate(boleto)
+  H1: repeat_rate(credit_card) != repeat_rate(boleto)
+
+OBSERVED
+  credit_card:  1522/73533  =  2.07% repeat
+  boleto     :   402/19101  =  2.10% repeat
+  absolute difference: -0.03 pp
+  relative lift      : -1.7%
+
+======================================================================
+POWER ANALYSIS  (statsmodels NormalIndPower)
+======================================================================
+With n_cc=73,533 and n_bo=19,101, at alpha=0.05 / power=0.80:
+  smallest detectable effect (Cohen's h): 0.0228
+  ~ absolute gap detectable vs 2.10% base: ~0.34 pp
+  -> our observed gap is compared against this floor below.
+
+If we were to design a fresh, balanced experiment to detect the
+observed effect (h=-0.0024) at 80% power:
+  required sample per arm: 2,651,577
+  total:                   5,303,154
+
+Post-hoc power of the comparison we actually ran: 0.060
+
+======================================================================
+SIGNIFICANCE TEST
+======================================================================
+Two-proportion z-test:  z = -0.300,  p = 7.639e-01
+95% CI on absolute difference: [-0.27, +0.19] pp
+Relative lift point estimate: -1.7%
+Chi-square cross-check: chi2 = 0.090, p = 7.639e-01
+
+VERDICT: fail to reject H0 at alpha=0.05.

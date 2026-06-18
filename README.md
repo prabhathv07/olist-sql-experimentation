@@ -92,7 +92,8 @@ This project covers both, end‑to‑end, on a single real dataset and finishes 
 
 | Field | Value |
 |---|---|
-| Source | [E-commerce dataset by Olist as an SQLite database](https://www.kaggle.com/datasets/terencicp/e-commerce-dataset-by-olist-as-an-sqlite-database) (Kaggle) |
+| Source (used) | [E-commerce dataset by Olist as an SQLite database](https://www.kaggle.com/datasets/terencicp/e-commerce-dataset-by-olist-as-an-sqlite-database) (Kaggle, `olist.sqlite`) |
+| Alternative source (same data) | [Brazilian E-Commerce Public Dataset by Olist – raw CSVs](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) (Kaggle) |
 | Period | Sep 2016 – Oct 2018 (25 monthly cohorts) |
 | Orders | 99,441 |
 | Customers (unique people) | 96,096 |
@@ -100,7 +101,30 @@ This project covers both, end‑to‑end, on a single real dataset and finishes 
 | Tables used | `customers`, `orders`, `order_items`, `order_payments` |
 | Geography | 27 Brazilian states (SP, RJ, MG dominate ≈ 63% of revenue) |
 
-Why these four tables: `orders` carries the timestamp that drives cohorts and retention, `customers` links per‑order `customer_id` back to a stable `customer_unique_id` (so each *person* shows up once), and `order_payments` carries the lever this project tests – the payment method on the first order. Cancelled orders are filtered out in the spine view so they don't pollute revenue or retention numbers.
+Why the SQLite version over the raw CSVs: the SQLite dump preserves the exact column types from Olist's schema and is a single file to manage. DuckDB can attach SQLite databases directly (via the `sqlite` extension) or read the CSVs through `read_csv_auto()` – the SQL in `02_analysis.sql` is identical for both paths because the table and column names line up.
+
+Why these four tables: `orders` carries the timestamp that drives cohorts and retention, `customers` links the per‑order `customer_id` back to a stable `customer_unique_id` (so each *person* shows up once), and `order_payments` carries the lever this project tests – the payment method on the first order. Cancelled orders are filtered out in the spine view so they don't pollute revenue or retention numbers.
+
+### Data sources
+
+Primary dataset used end-to-end:
+
+- **Olist Brazilian e-commerce (SQLite)** – [kaggle.com/datasets/terencicp/e-commerce-dataset-by-olist-as-an-sqlite-database](https://www.kaggle.com/datasets/terencicp/e-commerce-dataset-by-olist-as-an-sqlite-database)
+
+Same data in a different format (drop-in alternative if you prefer CSV over SQLite):
+
+- **Olist Brazilian e-commerce (raw CSVs)** – [kaggle.com/datasets/olistbr/brazilian-ecommerce](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
+
+Related datasets considered for an extension (not used in this iteration, kept here so the project can grow to a second case study without re-scoping):
+
+- **Instacart Market Basket Analysis (dataset page)** – [kaggle.com/datasets/psparks/instacart-market-basket-analysis](https://www.kaggle.com/datasets/psparks/instacart-market-basket-analysis)
+- **Instacart Online Grocery Basket (backup mirror)** – [kaggle.com/datasets/yasserh/instacart-online-grocery-basket-analysis-dataset](https://www.kaggle.com/datasets/yasserh/instacart-online-grocery-basket-analysis-dataset)
+
+Tooling references (the documentation I leaned on while building this):
+
+- **DuckDB** – [duckdb.org](https://duckdb.org/) (window functions, sqlite extension, `read_csv_auto`)
+- **statsmodels** – [statsmodels.org](https://www.statsmodels.org/) (`NormalIndPower`, `proportions_ztest`, `confint_proportions_2indep`)
+- **SciPy stats** – [docs.scipy.org/doc/scipy/reference/stats.html](https://docs.scipy.org/doc/scipy/reference/stats.html) (`chi2_contingency`)
 
 ### The "order spine" view
 

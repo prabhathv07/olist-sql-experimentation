@@ -176,14 +176,14 @@ The MDE step is the part most A/B writeups skip and is what lets us call this a 
 
 | Month | Orders | Revenue (R$) | Running total | MoM growth |
 |---|---:|---:|---:|---:|
-| 2016-09 | 2 | 136.23 | 136.23 | – |
-| 2016-10 | 300 | 53,915.50 | 54,051.73 | +39 476.8% |
-| 2016-12 | 1 | 19.62 | 54,071.35 | −100.0% |
-| 2017-01 | 797 | 138,119.76 | 192,191.11 | +703 874.3% |
+| 2016-09 | 2 | 136.23 | 136.23 | – *(pilot: 2 orders)* |
+| 2016-10 | 300 | 53,915.50 | 54,051.73 | – *(pilot: first real month)* |
+| 2016-12 | 1 | 19.62 | 54,071.35 | – *(pilot: gap month)* |
+| 2017-01 | 797 | 138,119.76 | 192,191.11 | – *(pilot: ramp-up)* |
 | 2017-02 | 1,763 | 289,081.01 | 481,272.12 | +109.3% |
 | 2017-03 | 2,649 | 442,406.37 | 923,678.49 | +53.0% |
 
-The early months are tiny pilots, which is why the MoM percentages look extreme – the absolute numbers tell the real story (Olist scaled from 2 orders to ~2,600/month in 6 months).
+MoM growth is suppressed for the four pilot months (Sep 2016 – Jan 2017) where Olist had 1–300 orders — percentage changes off a near-zero base are arithmetically correct but meaningless as a signal. The story is in the absolute numbers: the platform went from 2 orders to 2,649/month in six months. From Feb 2017 onward, when the base is stable, MoM growth is a reliable metric.
 
 ### Repeat-purchase gap distribution (Q2)
 

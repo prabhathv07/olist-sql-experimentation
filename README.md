@@ -7,7 +7,7 @@
 ![scipy](https://img.shields.io/badge/scipy-1.x-8CAAE6?logo=scipy&logoColor=white)
 ![pandas](https://img.shields.io/badge/pandas-2.x-150458?logo=pandas&logoColor=white)
 ![matplotlib](https://img.shields.io/badge/matplotlib-3.x-11557C)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An end-to-end SQL + experimentation project on the real Olist Brazilian e‑commerce dataset (**99,441 orders / 96,096 customers, Sep 2016 – Oct 2018**). Six DuckDB analytical queries built around window functions, a monthly cohort retention matrix, a power analysis, a two‑proportion z‑test, and a 1‑page PM recommendation grounded in the result.
 

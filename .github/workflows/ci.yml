@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install duckdb statsmodels scipy pandas matplotlib
+          pip install -r requirements.txt
 
       - name: Lint Python files (syntax + basic checks with ruff)
         run: |

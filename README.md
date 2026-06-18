@@ -297,8 +297,10 @@ The `results/summary_figure.png` figure has two panels:
 ### 1. Install dependencies
 
 ```bash
-pip install duckdb statsmodels scipy pandas matplotlib
+pip install -r requirements.txt
 ```
+
+(or `pip install duckdb statsmodels scipy pandas matplotlib numpy` if you prefer one-shot installs)
 
 ### 2. Get the data
 
